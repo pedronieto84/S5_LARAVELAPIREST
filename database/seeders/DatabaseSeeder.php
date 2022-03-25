@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         Player::factory(10)->create();
         Shot::factory(10)->create();
 
+        $this->call(RoleSeeder::class);
+
     }
 }
