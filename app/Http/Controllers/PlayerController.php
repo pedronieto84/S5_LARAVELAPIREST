@@ -7,6 +7,15 @@ use App\Models\Player;
 
 class PlayerController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:players.store');
+        $this->middleware('can:players.update');
+        $this->middleware('can:players.store');
+        $this->middleware('can:players.destroy');
+        $this->middleware('can:playershots.show');
+    }
     /**
      * Display a listing of the resource.
      *
