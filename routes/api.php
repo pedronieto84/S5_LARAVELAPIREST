@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+}); */
 
-});
-
+Route::group(['middleware' => 'auth:sanctum'], function(){
 //---------Player
 Route::post('players', [PlayerController::class, 'store'])->name('players.store');      // crea un jugador
 Route::put('players/{player}', [PlayerController::class, 'update'])->name('players.update');   // modifica el nom del jugador
@@ -34,6 +34,6 @@ Route::get('players', [PlayerController::class, 'index'])->name('players.index')
 Route::get('players/ranking', [PlayerController::class, 'rank'])->name('players.rank');  // retorna el ranking mig de tots els jugadors del sistema. És a dir, el percentatge mig d’èxits.
 Route::get('players/ranking/loser', [PlayerController::class, 'loser'])->name('players.rankloser');  // retorna el jugador amb pitjor percentatge d’èxit
 Route::get('players/ranking/winner', [PlayerController::class, 'winner'])->name('players.rankwinner'); // retorna el jugador amb pitjor percentatge d’èxit.
+}
 
-
-
+);
