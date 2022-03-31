@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+//use App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -27,16 +30,34 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $loginData = $request->validate([
+        $loginData = $request->all();/* ->validate([
             'email' => 'email|required',
             'password' => 'required'
-        ]);
+        ]); */
 
-        if(!auth()->attempt($loginData)){
-            return response()->json(['message' => 'Datos incorrectos'],400);
+        if(Auth::attempt($loginData)){
+            return $loginData;
+            //return response()->json(['message' => 'Datos incorrectos'],400);
         }
+        else{   
+            $user = 
+            $loginToken = Auth::user()->createToken('authToken')->loginToken;
+            return response()->json(['acces_token' => $loginToken]);
+        }  
 
-        $accessToken = auth()->user()->createToken('authToken')->accesToken;
-        return response(['user' => auth()->user(), 'acces_token' => $accessToken]);
+
+        /*         if(auth()->attempt($loginData)){
+            //generate the token for the user
+            $user_login_token= auth()->user()->createToken('authToken')->accessToken;
+            //now return this token on success login attempt
+            return response()->json(['token' => $user_login_token], 200);
+        }
+        else{
+            //wrong login credentials, return, user not authorised to our system, return error code 401
+            return response()->json(['error' => 'UnAuthorised Access'], 401);
+        }  */
+
+
     }
+    
 }
