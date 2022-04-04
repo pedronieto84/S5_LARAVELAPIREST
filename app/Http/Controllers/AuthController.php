@@ -19,7 +19,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        //$requestData['password'] = Hash::make($request->password);
+        $requestData['password'] = Hash::make($request->password);
 
         $user = User::create($requestData);
 
@@ -30,15 +30,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $loginData = $request->all();/* ->validate([
-            'email' => 'email|required',
-            'password' => 'required'
-        ]); */
-
-        
+        $loginData = $request->validate([
+            'email' => ['email', 'required'],
+            'password' => ['required']
+        ]);
 
 
-        if(!Auth::attempt($loginData)){
+
+        if(!Auth::login($loginData)){
             //return $loginData;
             return response()->json(['message' => 'Datos incorrectos'],400);
         }
