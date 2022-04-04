@@ -46,7 +46,15 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+
+        "initialize": [
+            "composer install",
+            "npm install",
+            "composer run-scrip post-root-package-install",
+            
+            "php artisan migrate:fresh --seed"
+            ]
     },
     "extra": {
         "laravel": {
