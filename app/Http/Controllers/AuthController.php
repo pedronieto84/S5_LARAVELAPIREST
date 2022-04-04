@@ -35,14 +35,18 @@ class AuthController extends Controller
             'password' => 'required'
         ]); */
 
-        if(Auth::attempt($loginData)){
-            return $loginData;
-            //return response()->json(['message' => 'Datos incorrectos'],400);
+        
+
+
+        if(!Auth::attempt($loginData)){
+            //return $loginData;
+            return response()->json(['message' => 'Datos incorrectos'],400);
         }
         else{   
-            $user = 
-            $loginToken = Auth::user()->createToken('authToken')->loginToken;
-            return response()->json(['acces_token' => $loginToken]);
+            $user = Auth::user(); 
+            //$loginToken = $user->createToken('authToken')->loginToken;
+            //return response()->json(['acces_token' => $loginToken]);
+            return $user;
         }  
 
 
